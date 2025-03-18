@@ -25,6 +25,30 @@ const skills = [
   { name: "Adobe Photoshop", icon: <SiAdobephotoshop className="text-blue-300 text-5xl" />, glow: "shadow-blue-300" },
 ];
 
+type Skill = {
+  name: string;
+  icon: JSX.Element;
+  glow: string;
+};
+
+const SkillCard = ({ skill }: { skill: Skill }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "0px 0px -100px 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`p-8 bg-gray-900/50 backdrop-blur-lg rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center transition-all duration-300 hover:scale-110 hover:${skill.glow}`}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {skill.icon}
+      <p className="mt-3 text-xl font-semibold">{skill.name}</p>
+    </motion.div>
+  );
+};
+
 const Skills = () => {
   return (
     <div id="skills" className="p-12 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
@@ -32,24 +56,9 @@ const Skills = () => {
         My Skills
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
-        {skills.map((skill, index) => {
-          const ref = useRef(null);
-          const isInView = useInView(ref, { once: false, margin: "0px 0px -100px 0px" });
-
-          return (
-            <motion.div
-              ref={ref}
-              key={index}
-              className={`p-8 bg-gray-900/50 backdrop-blur-lg rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center transition-all duration-300 hover:scale-110 hover:${skill.glow}`}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              {skill.icon}
-              <p className="mt-3 text-xl font-semibold">{skill.name}</p>
-            </motion.div>
-          );
-        })}
+        {skills.map((skill, index) => (
+          <SkillCard key={index} skill={skill} />
+        ))}
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ const Main = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="text-4xl sm:text-5xl font-bold"
           >
-            Hi, I'm <span className="text-blue-400">Albin John</span>
+            Hi, I&apos;m <span className="text-blue-400">Albin John</span>
           </motion.h1>
 
           <motion.p
